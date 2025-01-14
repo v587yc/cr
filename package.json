@@ -3,13 +3,11 @@
   "version": "1.0.0",
   "description": "短信验证码接收系统",
   "main": "script.js",
-  "scripts": {
-    "start": "serve .",
-    "dev": "serve ."
-  },
   "dependencies": {
-    "serve": "^14.2.1"
+    "node-fetch": "^2.6.1"
   },
-  "author": "",
-  "license": "ISC"
+  "scripts": {
+    "start": "vercel dev",
+    "deploy": "vercel deploy --prod"
+  }
 } 

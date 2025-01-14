@@ -1,8 +1,8 @@
 class SMSManager {
     constructor() {
         this.API_KEY = 'U7L2XoZEwn5DAExpvuoBFJNzi0iq2fx2';
-        // 使用 CORS 代理
-        this.BASE_URL = 'https://cors-anywhere.herokuapp.com/https://api.tiger-sms.com/stubs/handler_api.php';
+        // 使用相对路径
+        this.BASE_URL = '/api/proxy';
         this.activeNumbers = new Map();
         this.statusMap = {
             'STATUS_WAIT_CODE': '等待接收验证码中...',
@@ -76,20 +76,32 @@ class SMSManager {
     async getNewNumber() {
         try {
             this.showNotification('正在获取新号码...', 'info');
-            const response = await fetch(`${this.BASE_URL}?api_key=${this.API_KEY}&action=getNumber&service=hw&country=6`);
+            const response = await fetch(`${this.BASE_URL}?api_key=${this.API_KEY}&action=getNumber&service=hw&country=6`, {
+                method: 'GET',
+                headers: {
+                    'Accept': '*/*',
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
             const data = await response.text();
+            console.log('API Response:', data); // 调试日志
             
             if (data.startsWith('ACCESS_NUMBER:')) {
                 const [_, id, number] = data.split(':');
                 this.addNumberToList(id, number, Date.now());
                 this.startPolling(id);
             } else {
-                alert('获取号码失败：' + data);
+                this.showNotification('获取号码失败：' + data, 'error');
             }
             this.updateStats();
         } catch (error) {
-            this.showNotification('获取号码失败', 'error');
             console.error('获取号码错误：', error);
+            this.showNotification('获取号码失败: ' + error.message, 'error');
         }
     }
 
@@ -163,7 +175,18 @@ class SMSManager {
 
     async getStatus(id) {
         try {
-            const response = await fetch(`${this.BASE_URL}?api_key=${this.API_KEY}&action=getStatus&id=${id}`);
+            const response = await fetch(`${this.BASE_URL}?api_key=${this.API_KEY}&action=getStatus&id=${id}`, {
+                method: 'GET',
+                headers: {
+                    'Accept': '*/*',
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
             const status = await response.text();
             const statusElement = document.getElementById(`status-${id}`);
             
