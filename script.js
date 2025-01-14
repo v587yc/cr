@@ -1,7 +1,8 @@
 class SMSManager {
     constructor() {
         this.API_KEY = 'U7L2XoZEwn5DAExpvuoBFJNzi0iq2fx2';
-        this.BASE_URL = 'https://api.tiger-sms.com/stubs/handler_api.php';
+        // 使用 CORS 代理
+        this.BASE_URL = 'https://cors-anywhere.herokuapp.com/https://api.tiger-sms.com/stubs/handler_api.php';
         this.activeNumbers = new Map();
         this.statusMap = {
             'STATUS_WAIT_CODE': '等待接收验证码中...',

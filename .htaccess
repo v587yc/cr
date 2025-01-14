@@ -1,0 +1,19 @@
+# 启用 CORS
+Header set Access-Control-Allow-Origin "*"
+Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+Header set Access-Control-Allow-Headers "Content-Type"
+
+# 设置默认字符集
+AddDefaultCharset UTF-8
+
+# 启用 URL 重写
+RewriteEngine On
+
+# 如果请求的不是真实文件或目录，重定向到 index.html
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.html [L]
+
+# PHP 错误处理
+php_flag display_errors on
+php_value error_reporting E_ALL 
