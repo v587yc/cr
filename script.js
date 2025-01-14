@@ -1,8 +1,8 @@
 class SMSManager {
     constructor() {
         this.API_KEY = 'U7L2XoZEwn5DAExpvuoBFJNzi0iq2fx2';
-        // 使用完整的 URL
-        this.BASE_URL = 'https://cren-mi3mzsozc-v587ycs-projects.vercel.app/api/proxy';
+        // 直接使用原始 API 地址
+        this.BASE_URL = 'https://api.tiger-sms.com/stubs/handler_api.php';
         this.activeNumbers = new Map();
         this.statusMap = {
             'STATUS_WAIT_CODE': '等待接收验证码中...',
@@ -76,20 +76,8 @@ class SMSManager {
     async getNewNumber() {
         try {
             this.showNotification('正在获取新号码...', 'info');
-            const response = await fetch(`${this.BASE_URL}?api_key=${this.API_KEY}&action=getNumber&service=hw&country=6`, {
-                method: 'GET',
-                headers: {
-                    'Accept': 'text/plain',
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
+            const response = await fetch(`${this.BASE_URL}?api_key=${this.API_KEY}&action=getNumber&service=hw&country=6`);
             const data = await response.text();
-            console.log('API Response:', data); // 调试日志
             
             if (data.startsWith('ACCESS_NUMBER:')) {
                 const [_, id, number] = data.split(':');
