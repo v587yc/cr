@@ -1,8 +1,8 @@
 class SMSManager {
     constructor() {
         this.API_KEY = 'U7L2XoZEwn5DAExpvuoBFJNzi0iq2fx2';
-        // 使用相对路径
-        this.BASE_URL = '/api/proxy';
+        // 使用完整的 URL
+        this.BASE_URL = 'https://cren-mi3mzsozc-v587ycs-projects.vercel.app/api/proxy';
         this.activeNumbers = new Map();
         this.statusMap = {
             'STATUS_WAIT_CODE': '等待接收验证码中...',
@@ -79,8 +79,8 @@ class SMSManager {
             const response = await fetch(`${this.BASE_URL}?api_key=${this.API_KEY}&action=getNumber&service=hw&country=6`, {
                 method: 'GET',
                 headers: {
-                    'Accept': '*/*',
-                    'Content-Type': 'application/json'
+                    'Accept': 'text/plain',
+                    'Content-Type': 'application/x-www-form-urlencoded'
                 }
             });
 

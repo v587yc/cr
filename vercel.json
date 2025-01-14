@@ -2,8 +2,9 @@
   "version": 2,
   "routes": [
     {
-      "src": "/api/proxy(.*)",
-      "dest": "/api/proxy.js"
+      "src": "/api/proxy",
+      "dest": "/api/proxy.js",
+      "methods": ["GET", "POST", "OPTIONS"]
     },
     { "handle": "filesystem" },
     { "src": "/.*", "dest": "/index.html" }
@@ -14,7 +15,7 @@
       "headers": [
         { "key": "Access-Control-Allow-Origin", "value": "*" },
         { "key": "Access-Control-Allow-Methods", "value": "GET, POST, OPTIONS" },
-        { "key": "Access-Control-Allow-Headers", "value": "X-Requested-With, Content-Type, Authorization" }
+        { "key": "Access-Control-Allow-Headers", "value": "Content-Type, Accept" }
       ]
     }
   ]
